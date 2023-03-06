@@ -1,12 +1,18 @@
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 
-from app.keyboards.reply import transport_type
+from app.keyboards.reply import transport_type, select_language
 from app.utils.statesform import LoadTrip
 
 
 async def load_new_trip(message: types.Message, state: FSMContext):
-    await message.answer(f"Send start town")
+    await message.answer(f"Select language", reply_markup=select_language)
+    await state.set_state(LoadTrip.LANGUAGE)
+
+
+async def get_language(message: types.Message, state: FSMContext):
+    await message.answer(f"You chosen '{message.text}' language\r\nSend first town")
+    await state.update_data(language=message.text)
     await state.set_state(LoadTrip.FIRST_PLACE)
 
 

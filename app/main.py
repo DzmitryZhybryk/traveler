@@ -7,7 +7,7 @@ from aiogram.filters import Command, CommandStart
 from app.config import config
 from app.database import database
 from app.handlers.basic import get_start, personal_data
-from app.handlers.forms import load_new_trip, get_first_place, get_last_place, get_transport_type
+from app.handlers.forms import load_new_trip, get_first_place, get_last_place, get_transport_type, get_language
 from app.middlewares.required import RequiredMiddleware
 from app.utils.commands import set_commands
 from app.utils.statesform import LoadTrip
@@ -18,7 +18,7 @@ async def start_bot(bot: Bot):
     await bot.send_message(config.my_telegram_id, text=f"<b>Bot started!</b>")
     await database.connect_database()
     # await database.create_countries_table()
-    await database.create_travels_table()
+    # await database.create_travels_table()
 
 
 async def stop_bot(bot: Bot):
@@ -39,6 +39,7 @@ async def start():
     db.message.register(get_start, CommandStart())
     db.message.register(personal_data, Command(commands="my_data"))
     db.message.register(load_new_trip, Command(commands="load"))
+    db.message.register(get_language, LoadTrip.LANGUAGE)
     db.message.register(get_first_place, LoadTrip.FIRST_PLACE)
     db.message.register(get_last_place, LoadTrip.LAST_PLACE)
     db.message.register(get_transport_type, LoadTrip.TRANSPORT_TYPE)

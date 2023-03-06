@@ -1,6 +1,19 @@
 from aiogram import types
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 
+
+select_language = types.ReplyKeyboardMarkup(keyboard=[
+    [
+        types.KeyboardButton(
+            text="ru"
+        ),
+        types.KeyboardButton(
+            text="en"
+        )
+    ]
+], resize_keyboard=True, one_time_keyboard=True, input_field_placeholder="Select language")
+
+
 transport_type = types.ReplyKeyboardMarkup(keyboard=[
     [
         types.KeyboardButton(
