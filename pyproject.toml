@@ -1,0 +1,18 @@
+[tool]
+[tool.pdm]
+
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Dzmitry Zhybryk", email = "d.zhibrik@i-digit.ru"},
+]
+dependencies = [
+    "pydantic[dotenv]>=1.10.5",
+    "setuptools>=67.4.0",
+    "aiogram>=3.0.0b7",
+    "databases[aiosqlite]>=0.7.0",
+]
+requires-python = ">=3.10"
+license = {text = "MIT"}
