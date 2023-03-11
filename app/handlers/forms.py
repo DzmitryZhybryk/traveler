@@ -1,8 +1,24 @@
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 
+from app.database import database
 from app.keyboards.reply import transport_type, select_language
 from app.utils.statesform import LoadTrip
+
+
+async def cancel_handler(message: types.Message, state: FSMContext) -> None:
+    """
+    Allow user to cancel any action
+    """
+    current_state = await state.get_state()
+    if current_state is None:
+        return
+
+    await state.clear()
+    await message.answer(
+        "Cancelled.",
+        reply_markup=types.ReplyKeyboardRemove(),
+    )
 
 
 async def load_new_trip(message: types.Message, state: FSMContext):
@@ -33,4 +49,18 @@ async def get_transport_type(message: types.Message, state: FSMContext):
     await state.update_data(transport_type=message.text)
     context_data = await state.get_data()
     await message.answer(f"This data will be added:\r\n{str(context_data)}")
+
+    some = await database.add_country(country="Belarus")
+    # data = await database.select_country(country="Belarus")
+    # print(data)
+    # first_coordinates = await geographic_handler.get_geographic_coordinates(address=context_data["start_place"],
+    #                                                                         language=context_data["language"])
+    # second_coordinates = await geographic_handler.get_geographic_coordinates(address=context_data["finish_place"],
+    #                                                                          language=context_data["language"])
+    #
+    # distance = await geographic_handler.get_distance(lat_1=first_coordinates.latitude,
+    #                                                  long_1=first_coordinates.longitude,
+    #                                                  lat_2=second_coordinates.latitude,
+    #                                                  long_2=second_coordinates.longitude)
+    # await message.answer(f"1 {first_coordinates}\r\n2 {second_coordinates}\r\tdistance {distance}")
     await state.clear()

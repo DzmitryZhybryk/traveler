@@ -3,9 +3,6 @@ from databases import Database
 from app.config import config
 
 
-# database = Database(url=config.database_url)
-
-
 class DatabaseWorker:
 
     def __init__(self):
@@ -20,8 +17,8 @@ class DatabaseWorker:
     async def create_countries_table(self):
         query = (
             "CREATE TABLE IF NOT EXISTS countries ("
-            "id INTEGER PRIMARY KEY, "
-            "country_name VARCHAR(255)"
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "country_name VARCHAR(255))"
         )
         await self._database.execute(query)
 
@@ -36,6 +33,17 @@ class DatabaseWorker:
             "FOREIGN KEY(countries_id) references countries(id))"
         )
         await self._database.execute(query)
+
+    async def select_country(self, country: str):
+        query = f"SELECT * FROM countries WHERE country_name={country}"
+        country = await self._database.execute(query)
+        return country
+
+    async def add_country(self, country: str):
+        query = (
+            f"INSERT INTO countries VALUES (:id, :country_name)"
+        )
+        await self._database.execute(query, {"id": 2, "country_name": country})
 
 
 database = DatabaseWorker()

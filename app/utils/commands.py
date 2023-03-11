@@ -14,6 +14,10 @@ async def set_commands(bot: Bot):
         types.BotCommand(
             command="load",
             description="Load you travel info"
+        ),
+        types.BotCommand(
+            command="cancel",
+            description="Cancel all"
         )
     ]
 
